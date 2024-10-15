@@ -49,10 +49,6 @@ jobs:
       matrix:
         dotnet: ['8.0.x']
     steps:
-      - name: Install C#
-        # uses: actions/setup-dotnet@v4.0.1
-        # with:
-        #   dotnet-version: ${{ matrix.dotnet }}
       - name: Checkout Arrow
         uses: actions/checkout@v4
         with:
