@@ -18,6 +18,7 @@
 name: C#
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/csharp.yml'
@@ -40,7 +41,7 @@ jobs:
 
   ubuntu:
     name: AMD64 Ubuntu 18.04 C# ${{ matrix.dotnet }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-ppc64le
     if: ${{ !contains(github.event.pull_request.title, 'WIP') }}
     timeout-minutes: 15
     strategy:
@@ -49,9 +50,9 @@ jobs:
         dotnet: ['8.0.x']
     steps:
       - name: Install C#
-        uses: actions/setup-dotnet@v4.0.1
-        with:
-          dotnet-version: ${{ matrix.dotnet }}
+        # uses: actions/setup-dotnet@v4.0.1
+        # with:
+        #   dotnet-version: ${{ matrix.dotnet }}
       - name: Checkout Arrow
         uses: actions/checkout@v4
         with:
