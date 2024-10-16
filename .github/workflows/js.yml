@@ -18,6 +18,7 @@
 name: NodeJS
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.dockerignore'
@@ -47,7 +48,7 @@ jobs:
 
   docker:
     name: AMD64 Debian 12 NodeJS 18
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-ppc64le
     if: ${{ !contains(github.event.pull_request.title, 'WIP') }}
     timeout-minutes: 60
     steps:
@@ -56,7 +57,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
+        uses: deadsnakes/action@v3.2.0
         with:
           python-version: 3.12
       - name: Setup Archery
@@ -72,7 +73,7 @@ jobs:
         if: >-
           success() &&
           github.event_name == 'push' &&
-          github.repository == 'apache/arrow' &&
+          github.repository == 'rahulssv-ibm/arrow' &&
           github.ref_name == 'main'
         env:
           ARCHERY_DOCKER_USER: ${{ secrets.DOCKERHUB_USER }}
@@ -135,6 +136,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          architecture: ppc64le
       - name: Build
         shell: bash
         run: ci/scripts/js_build.sh $(pwd) build
